@@ -1,5 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
-import { CreateVoteDto } from './vote.dto';
+import { CreateVoteDto } from 'src/dto/vote.dto';
 
 export class CreateActivityDto {
 
@@ -20,5 +20,5 @@ export class CreateActivityDto {
   @IsNotEmpty()
   description: string
 
-  votes: CreateVoteDto
+  votes: CreateVoteDto[]
 }

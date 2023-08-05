@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsDateString } from 'class-validator';
+import { IsNotEmpty, IsDateString, IsInt } from 'class-validator';
 import { CreateActivityDto } from './activity.dto';
 
 export class CreateDayDto {
@@ -6,7 +6,12 @@ export class CreateDayDto {
   dayID: string
 
   @IsNotEmpty()
+  @IsInt()
+  day: number
+
+  @IsNotEmpty()
   tripID: string
+
 
   @IsNotEmpty()
   @IsDateString()

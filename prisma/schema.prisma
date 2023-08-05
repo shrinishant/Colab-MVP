@@ -12,7 +12,7 @@ datasource db {
 
 model Trip {
   tripID      String      @unique @id
-  userID      String      @unique
+  userID      String
   tripName    String
   startDate   DateTime
   endDate     DateTime
@@ -23,7 +23,8 @@ model Trip {
 
 model Day {
   dayID   String      @unique @id
-  tripID  String      @unique
+  day     Int
+  tripID  String
   date    DateTime
 
   activities Activity[]
@@ -32,8 +33,9 @@ model Day {
 }
 
 model Activity {
-  activityID   String      @unique @id 
-  dayID        String      @unique
+  activityID   String      @unique @id
+  tripID       String
+  dayID        String
   activityName String
   location     String
   description  String
@@ -44,8 +46,8 @@ model Activity {
 
 model Vote {
   voteID       String      @unique @id 
-  activityID   String      @unique
-  userID       String      @unique
+  activityID   String
+  userID       String
   voteType     String
 
   activity     Activity  @relation(fields: [activityID], references: [activityID])
