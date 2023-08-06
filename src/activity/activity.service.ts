@@ -9,11 +9,27 @@ export class ActivityService {
 
     async create(dto: CreateActivityDto){
         try {
+
+            if (!dto.dayID) {
+                var d = await this.prisma.day.create({
+                    data: {
+                        dayID: uuidv4(),
+                        day: dto.day,
+                        date: new Date(),
+                        trip: {
+                            connect: { 
+                                tripID: dto.tripID
+                            }
+                        }
+                    }
+                });
+            }
+
             const activity = await this.prisma.activity.create({
                 data: {
                     activityID: uuidv4(),
                     tripID: dto.tripID,
-                    dayID: dto.dayID,
+                    dayID: dto?.dayID ? dto?.dayID : d?.dayID,
                     activityName: dto.activityName,
                     location: dto.location,
                     description: dto.description,

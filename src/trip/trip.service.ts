@@ -10,6 +10,19 @@ import { v4 as uuidv4 } from 'uuid';
 //   ],
 // };
 
+function calculateVoteCounts(votes) {
+  const initialCounts = {
+    interested: 0,
+    notInterested: 0,
+    maybe: 0,
+  };
+
+  return votes.reduce((counts, vote) => {
+    counts[vote.voteType]++;
+    return counts;
+  }, initialCounts);
+}
+
 @Injectable()
 export class TripService {
 
@@ -44,20 +57,31 @@ export class TripService {
         const trips = await this.prisma.trip.findMany({
             where: {
                 userID: userID,
-              },
-          include: {
-            days: {
-              include: {   
-                activities: {
-                  include: {
-                    votes: true,
+            },
+            include: {
+              days: {
+                include: {   
+                  activities: {
+                    include: {
+                      votes: true,
+                    },
                   },
                 },
               },
             },
-          },
-        });
-    
-        return trips;
+        })
+
+        const tripsWithVoteCounts = trips.map((trip) => ({
+          ...trip,
+          days: trip.days.map((day) => ({
+            ...day,
+            activities: day.activities.map((activity) => ({
+              ...activity,
+              votes: calculateVoteCounts(activity.votes),
+            })),
+          })),
+        }))
+        
+        return tripsWithVoteCounts
     }
 }

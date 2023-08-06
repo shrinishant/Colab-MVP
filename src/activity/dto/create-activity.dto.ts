@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 import { CreateVoteDto } from 'src/dto/vote.dto';
 
 export class CreateActivityDto {
@@ -8,8 +8,11 @@ export class CreateActivityDto {
   @IsNotEmpty()
   tripID: string
 
-  @IsNotEmpty()
+  @IsOptional()
   dayID: string
+
+  @IsOptional()
+  day: number
 
   @IsNotEmpty()
   activityName: string

@@ -51,4 +51,6 @@ model Vote {
   voteType     String
 
   activity     Activity  @relation(fields: [activityID], references: [activityID])
+
+  @@unique([activityID, userID])
 }
