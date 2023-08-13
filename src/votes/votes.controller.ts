@@ -6,17 +6,17 @@ import { CreateVoteDto } from './dto/vote.dto';
 export class VotesController {
     constructor(private voteService: VotesService){}
 
-    @Post('/createVote')
+    @Post('/')
     vote(@Body() dto: CreateVoteDto){
         return this.voteService.vote(dto)
     }
 
-    @Post('/updateVote')
-    updateVote(@Body() dto : {
-        userID: string, 
-        activityID: string,
-        voteType: string
-    }){
-        return this.voteService.upDateVote(dto)
-    }
+    // @Post('/updateVote')
+    // updateVote(@Body() dto : {
+    //     userID: string, 
+    //     activityID: string,
+    //     voteType: string
+    // }){
+    //     return this.voteService.upDateVote(dto)
+    // }
 }

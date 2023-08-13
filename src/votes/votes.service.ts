@@ -30,8 +30,19 @@ export class VotesService {
                 })
                 return vote
             }else{
+                const update = await this.prisma.vote.update({
+                    where : {
+                        activityID_userID: {
+                          activityID: dto.activityID,
+                          userID: dto.userID
+                        }
+                    },
+                    data : {
+                        voteType: dto.voteType
+                    }
+                })
                 return {
-                    data: "Already voted"
+                    vote: update
                 }
             }
 

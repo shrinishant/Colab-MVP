@@ -19,6 +19,8 @@ model Trip {
   destination String
 
   days        Day[]
+
+  @@unique([userID, tripID])
 }
 
 model Day {

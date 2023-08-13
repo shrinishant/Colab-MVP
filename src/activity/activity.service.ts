@@ -3,6 +3,19 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { v4 as uuidv4 } from 'uuid'
 
+function calculateVoteCounts(votes) {
+    const initialCounts = {
+      interested: 0,
+      notInterested: 0,
+      maybe: 0,
+    };
+  
+    return votes.reduce((counts, vote) => {
+      counts[vote.voteType]++;
+      return counts;
+    }, initialCounts);
+}
+
 @Injectable()
 export class ActivityService {
     constructor(private prisma: PrismaService){}
@@ -47,18 +60,29 @@ export class ActivityService {
         }
     }
 
-    async getAllForATrip(tripID: string){
+    async getAllForATrip(dto){
         try {
             const activities = await this.prisma.activity.findMany({
                 where: {
-                    tripID: tripID,
+                    tripID: dto.tripID,
                   },
               include: {
                 votes: true
               },
             })
+
+            const activitiesWithCounts = activities.map((activity) => ({
+                ...activity,
+                votes: activity.votes.reduce(
+                  (voteCounts, vote) => {
+                    voteCounts[vote.voteType] += 1;
+                    return voteCounts;
+                  },
+                  { interested: 0, notInterested: 0, maybe: 0 }
+                ),
+              }))
         
-            return activities
+            return activitiesWithCounts
         } catch (error) {
             throw error
         }

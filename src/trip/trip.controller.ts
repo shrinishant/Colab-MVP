@@ -15,4 +15,11 @@ export class TripController {
     getAllTrips(userID: string){
         return this.tripService.getAllTrips(userID)
     }
+
+    @Get('getTripsByUser')
+    getTripsForAnUser(@Body() dto: {
+        userID: string
+    }){
+        return this.tripService.getTripsForAnUser(dto)
+    }
 }

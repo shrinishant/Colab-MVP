@@ -12,8 +12,10 @@ export class ActivityController {
     }
 
     @Get('getActivities')
-    getAllForATrip(tripID: string){
-        return this.activityService.getAllForATrip(tripID)
+    getAllForATrip(@Body() dto: {
+        tripID: string
+    }){
+        return this.activityService.getAllForATrip(dto)
     }
     
 }

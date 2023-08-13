@@ -84,4 +84,15 @@ export class TripService {
         
         return tripsWithVoteCounts
     }
+
+    async getTripsForAnUser(dto) {
+
+      const trip = await this.prisma.trip.findMany({
+        where: {
+          userID: dto.userID
+        },
+      })
+      
+      return trip
+  }
 }
