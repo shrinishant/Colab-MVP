@@ -22,20 +22,51 @@ export class ActivityService {
 
     async create(dto: CreateActivityDto){
         try {
+            var d;
 
             if (!dto.dayID) {
-                var d = await this.prisma.day.create({
-                    data: {
-                        dayID: uuidv4(),
-                        day: dto.day,
-                        date: new Date(),
-                        trip: {
-                            connect: { 
-                                tripID: dto.tripID
+                if(dto.day){
+                    const days = await this.prisma.day.findFirst({
+                        where: {
+                            tripID: dto.tripID,
+                            day: dto.day
+                        },
+                        include: {
+                            activities: true
+                        }
+                    })
+
+                    if(days){
+                        // console.log(days, "days")
+                        d = days
+                    }else{
+                        d = await this.prisma.day.create({
+                            data: {
+                                dayID: uuidv4(),
+                                day: dto.day,
+                                date: new Date(),
+                                trip: {
+                                    connect: { 
+                                        tripID: dto.tripID
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }else{
+                    d = await this.prisma.day.create({
+                        data: {
+                            dayID: uuidv4(),
+                            day: dto.day,
+                            date: new Date(),
+                            trip: {
+                                connect: { 
+                                    tripID: dto.tripID
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
 
             const activity = await this.prisma.activity.create({
