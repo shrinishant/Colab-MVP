@@ -118,4 +118,61 @@ export class ActivityService {
             throw error
         }
     }
+
+    async getActivitiesPerTrip(dto){
+        try {
+            const activities = await this.prisma.trip.findMany({
+                where: {
+                  userID: dto.userID,
+                  tripID: dto.tripID
+                },
+                include: {
+                  days: {
+                    include: {
+                      activities: {
+                        include: {
+                          votes: true,
+                        },
+                      },
+                    },
+                  },
+                }
+            })
+
+            const formattedTrips = activities.map((trip) => ({
+                tripID: trip.tripID,
+                userID: trip.userID,
+                tripName: trip.tripName,
+                startDate: trip.startDate,
+                endDate: trip.endDate,
+                destination: trip.destination,
+                days: trip.days.map((day) => ({
+                  dayID: day.dayID,
+                  day: day.day,
+                  tripID: day.tripID,
+                  date: day.date,
+                  activities: day.activities.map((activity) => ({
+                    activityID: activity.activityID,
+                    tripID: activity.tripID,
+                    dayID: activity.dayID,
+                    activityName: activity.activityName,
+                    location: activity.location,
+                    description: activity.description,
+                    votes: {
+                        interested: activity.votes.filter((vote) => vote.voteType === 'interested').length,
+                        notInterested: activity.votes.filter((vote) => vote.voteType === 'notInterested').length,
+                        maybe: activity.votes.filter((vote) => vote.voteType === 'maybe').length,
+                      },
+                  })),
+                })),
+            }))
+          
+            return formattedTrips
+        } catch (error) {
+            console.log(error)
+            throw new ForbiddenException(
+                'No Trips found'
+            )
+        }
+    }
 }

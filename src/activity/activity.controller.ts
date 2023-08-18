@@ -17,5 +17,12 @@ export class ActivityController {
     }){
         return this.activityService.getAllForATrip(dto)
     }
-    
+
+    @Get('trip')
+    getActivitiesPerTrip(@Body() dto : {
+        tripID: string,
+        userID: string
+    }){
+        return this.activityService.getActivitiesPerTrip(dto)
+    }
 }
