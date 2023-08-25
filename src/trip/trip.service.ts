@@ -41,6 +41,19 @@ export class TripService {
                 }
             })
 
+            await this.prisma.user.update({
+                where: {
+                    userID: dto.userID
+                },
+                data: {
+                    trips: {
+                        connect: {
+                            tripID: trip.tripID
+                        }
+                    }
+                }
+            })
+
             return trip
         } catch (error) {
             if(error.code === 'P2002') {

@@ -10,6 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  userID    String    @id @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email String  @unique
+  password  String
+
+  name String?
+
+  trips       Trip[]
+}
+
 model Trip {
   tripID      String      @unique @id
   userID      String
@@ -20,6 +33,8 @@ model Trip {
 
   days        Day[]
 
+  user        User        @relation(fields: [userID], references: [userID])
+  
   @@unique([userID, tripID])
 }
 
