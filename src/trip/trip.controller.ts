@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { TripService } from './trip.service';
 import { CreateTripDto } from './dto/create-trip.dto';
 
@@ -21,5 +21,40 @@ export class TripController {
         userID: string
     }){
         return this.tripService.getTripsForAnUser(dto)
+    }
+
+    @Put('/edit')
+    editTrip(@Body() dto: {
+        tripID: string,
+        tripName: string,
+        startDate: string,
+        endDate: string,
+        destination: string,
+        description: string
+    }){
+        return this.tripService.editTrip(dto)
+    }
+
+    @Delete('/delete')
+    deleteTrip(@Body() dto: {
+        tripID: string
+    }){
+        return this.tripService.deleteTrip(dto)
+    }
+
+    @Put('/join')
+    shareTrip(@Body() dto: {
+        tripID: string,
+        userID: string
+    }){
+        return this.tripService.shareTrip(dto)
+    }
+
+    @Put("/exit")
+    exutTrip(@Body() dto: {
+        userID: string,
+        tripID: string
+    }){
+        return this.tripService.exitTrip(dto)
     }
 }

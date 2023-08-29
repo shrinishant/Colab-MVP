@@ -20,7 +20,7 @@ model User {
 
   name String?
 
-  trips       Trip[]
+  trips       TripUser[]
 }
 
 model Trip {
@@ -34,8 +34,17 @@ model Trip {
 
   days        Day[]
 
-  user        User        @relation(fields: [userID], references: [userID])
+  tripUsers        TripUser[]
   
+  @@unique([userID, tripID])
+}
+
+model TripUser {
+  id         Int       @id @default(autoincrement())
+  userID     String
+  tripID     String
+  user       User      @relation(fields: [userID], references: [userID])
+  trip       Trip      @relation(fields: [tripID], references: [tripID])
   @@unique([userID, tripID])
 }
 
