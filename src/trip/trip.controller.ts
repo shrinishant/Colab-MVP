@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common';
 import { TripService } from './trip.service';
 import { CreateTripDto } from './dto/create-trip.dto';
 
@@ -17,7 +17,7 @@ export class TripController {
     }
 
     @Get('getTripsByUser')
-    getTripsForAnUser(@Body() dto: {
+    getTripsForAnUser(@Query() dto: {
         userID: string
     }){
         return this.tripService.getTripsForAnUser(dto)

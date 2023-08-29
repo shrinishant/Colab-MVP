@@ -181,4 +181,10 @@ export class ActivityService {
             )
         }
     }
+
+    async fakeAPI(){
+        return {
+            "msg":"fake response"
+        }
+    }
 }

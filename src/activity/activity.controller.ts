@@ -1,5 +1,5 @@
 import { ActivityService } from './activity.service';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateActivityDto } from './dto/create-activity.dto';
 
 @Controller('activity')
@@ -12,7 +12,7 @@ export class ActivityController {
     }
 
     @Get('getActivities')
-    getAllForATrip(@Body() dto: {
+    getAllForATrip(@Query() dto: {
         tripID: string
     }){
         return this.activityService.getAllForATrip(dto)
@@ -24,5 +24,10 @@ export class ActivityController {
         userID: string
     }){
         return this.activityService.getActivitiesPerTrip(dto)
+    }
+
+    @Get('/fake')
+    fakeAPI(){
+        return this.activityService.fakeAPI()
     }
 }
