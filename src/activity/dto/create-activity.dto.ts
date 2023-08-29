@@ -21,6 +21,15 @@ export class CreateActivityDto {
   location: string
 
   @IsNotEmpty()
+  cost: string
+
+  @IsNotEmpty()
+  startTime: string
+
+  @IsNotEmpty()
+  endTime: string
+
+  @IsNotEmpty()
   description: string
 
   votes: CreateVoteDto[]

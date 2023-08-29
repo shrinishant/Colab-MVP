@@ -37,7 +37,8 @@ export class TripService {
                     userID: dto.userID,
                     startDate: dto.startDate,
                     endDate: dto.endDate,
-                    destination: dto.destination
+                    destination: dto.destination,
+                    description: dto.description
                 }
             })
 

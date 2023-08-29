@@ -23,5 +23,8 @@ export class CreateTripDto {
   @IsNotEmpty()
   destination: string
 
+  @IsNotEmpty()
+  description: string
+
   days: CreateDayDto[]
 }

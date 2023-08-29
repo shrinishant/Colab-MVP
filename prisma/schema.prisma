@@ -30,6 +30,7 @@ model Trip {
   startDate   DateTime
   endDate     DateTime
   destination String
+  description String      @default("This is a default description")
 
   days        Day[]
 
@@ -55,6 +56,9 @@ model Activity {
   dayID        String
   activityName String
   location     String
+  cost         String      @default("$ 9.53")
+  startTime    String      @default("6 pm")
+  endTime      String      @default("7 pm")
   description  String
   votes        Vote[]
 

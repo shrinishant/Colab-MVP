@@ -76,6 +76,9 @@ export class ActivityService {
                     dayID: dto?.dayID ? dto?.dayID : d?.dayID,
                     activityName: dto.activityName,
                     location: dto.location,
+                    cost: dto.cost,
+                    startTime: dto.startTime,
+                    endTime: dto.endTime,
                     description: dto.description,
                 }
             })
@@ -157,6 +160,9 @@ export class ActivityService {
                     dayID: activity.dayID,
                     activityName: activity.activityName,
                     location: activity.location,
+                    cost: activity.cost,
+                    startTime: activity.startTime,
+                    endTime: activity.endTime,
                     description: activity.description,
                     votes: {
                         interested: activity.votes.filter((vote) => vote.voteType === 'interested').length,
